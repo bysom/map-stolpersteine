@@ -25,10 +25,10 @@
 			key: 'BC9A493B41014CAABB98F0471D759707'
 		}).addTo(map);
 
-		var toiletsIcon = L.Icon.extend({
+		var stolpersteinIcon = L.Icon.extend({
 			options: {
-				iconUrl: 'pics/toilets.png',
-				shadowUrl: 'pics/schatten.png',
+				iconUrl: 'img/stolperstein.jpg',
+				shadowUrl: 'img/schatten.png',
 				iconSize: [32, 37],
 				iconAnchor: [16, 37],
 				shadowAnchor: [9, 37],
@@ -76,7 +76,7 @@
 		    });
 		}
 
-		L.geoJson(toilets, {
+		L.geoJson(stolpersteine, {
 
 			style: function (feature) {
 				return feature.properties && feature.properties.style;
@@ -107,15 +107,15 @@
 			}
 		}).addTo(map);
 
-		L.geoJson(toiletsf, {
+		// L.geoJson(toiletsf, {
 
-			style: function (feature) {
-				return {color: "#0000FF",fillColor: "#0000FF", fillOpacity: 0.8, weight: 1, opacity: 1}
-			},
+		// 	style: function (feature) {
+		// 		return {color: "#0000FF",fillColor: "#0000FF", fillOpacity: 0.8, weight: 1, opacity: 1}
+		// 	},
 
-			onEachFeature: onEachFeature
+		// 	onEachFeature: onEachFeature
 
-		}).addTo(map);
+		// }).addTo(map);
 
 
 
