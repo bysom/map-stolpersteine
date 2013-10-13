@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Stolpersteine</title>
+	<meta charset="utf-8" />
+
+	<!--<meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	<link rel="stylesheet" href="externs/css/leaflet.css" />
+	<!--[if lte IE 8]><link rel="stylesheet" href="externs/css/leaflet.ie.css" /><![endif]-->
+</head>
+<body>
+	<div id="map" ></div>
+
+	<script src="geodaten/stolpersteine.js" type="text/javascript"></script>
+	<script src="externs/js/leaflet.js"></script>
+
+
+	<script>
+		var map = L.map('map').setView([53.86, 8.65], 12);
+
+		L.tileLayer('http://{s}.tile.cloudmade.com/{key}/22677/256/{z}/{x}/{y}.png', {
+			attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2012 CloudMade',
+			key: 'BC9A493B41014CAABB98F0471D759707'
+		}).addTo(map);
+
+		var toiletsIcon = L.Icon.extend({
+			options: {
+				iconUrl: 'pics/toilets.png',
+				shadowUrl: 'pics/schatten.png',
+				iconSize: [32, 37],
+				iconAnchor: [16, 37],
+				shadowAnchor: [9, 37],
+				popupAnchor: [0, -28]
+			}
+		});
+		// var toiletIcon = new toiletsIcon({iconUrl: 'pics/toilets.png'});
+		// var toilet_gr_Icon = new toiletsIcon({iconUrl: 'pics/toilets_gr.png'});
+		// var wheelieIcon = new toiletsIcon({iconUrl: 'pics/toilets_disability.png'});
+		// var wheelie_gr_Icon = new toiletsIcon({iconUrl: 'pics/toilets_disability_gr.png'});
+		// var wheelie_un_Icon = new toiletsIcon({iconUrl: 'pics/toilets_disability_un.png'});
+		// var toilet_un_Icon = new toiletsIcon({iconUrl: 'pics/toilets_un.png'});
+
+		function highlightFeature(e) {
+		    var layer = e.target;
+
+		    if (!L.Browser.ie && !L.Browser.opera) {
+		        layer.bringToFront();
+		    }
+		}
+
+		function resetHighlight(e) {
+		    geojson.resetStyle(e.target);
+		}
+
+		function zoomToFeature(e) {
+		    //map.fitBounds(e.target.getBounds());
+		    map.setView(e.latlng,15);
+		}
+
+		function onEachFeature(feature, layer) {
+			var open = "unbekannt";
+			var reftime = new Date();
+			if(feature.properties.opening_hours != null)
+				open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
+			var popupContent = "<b>" +
+					feature.properties.name + "</b></br>Wheelchair: "+feature.properties.wheelchair + "</br>Öffnungszeiten: "+ feature.properties.opening_hours +"<br />"+open.value+"</p>";
+
+
+			layer.bindPopup(popupContent);
+			layer.on({
+		        //mouseover: highlightFeature,
+		        //mouseout: resetHighlight,
+		        click: zoomToFeature
+		    });
+		}
+
+		L.geoJson(toilets, {
+
+			style: function (feature) {
+				return feature.properties && feature.properties.style;
+			},
+
+			onEachFeature: onEachFeature,
+
+			pointToLayer: function (feature, latlng) {
+				var open = "unbekannt";
+				var reftime = new Date();
+				if(feature.properties.opening_hours != null)
+					open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
+				if(feature.properties.wheelchair != "no" && feature.properties.wheelchair != null)
+					if( open.value )
+						return L.marker(latlng, {icon: wheelieIcon});
+					else  if (feature.properties.opening_hours != null)
+						return L.marker(latlng, {icon: wheelie_gr_Icon});
+					else
+						return L.marker(latlng, {icon: wheelie_un_Icon});
+				else
+					if( open.value )
+						return L.marker(latlng, {icon: toiletIcon});
+					else if (feature.properties.opening_hours != null)
+						return L.marker(latlng, {icon: toilet_gr_Icon});
+					else 
+						return L.marker(latlng, {icon: toilet_un_Icon});
+
+			}
+		}).addTo(map);
+
+		L.geoJson(toiletsf, {
+
+			style: function (feature) {
+				return {color: "#0000FF",fillColor: "#0000FF", fillOpacity: 0.8, weight: 1, opacity: 1}
+			},
+
+			onEachFeature: onEachFeature
+
+		}).addTo(map);
+
+
+
+
+		function onLocationFound(e) {
+		    var radius = e.accuracy / 2;
+
+		    L.circle(e.latlng, radius).addTo(map);
+		}
+		map.locate({setView: true, maxZoom: 16});
+		map.on('locationfound', onLocationFound);
+
+	</script>
+</body>
+</html>
