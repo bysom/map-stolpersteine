@@ -61,11 +61,10 @@
 
 		function onEachFeature(feature, layer) {
 			var open = "unbekannt";
-			var reftime = new Date();
-			if(feature.properties.opening_hours != null)
-				open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
-			var popupContent = "<b>" +
-					feature.properties.name + "</b></br>Wheelchair: "+feature.properties.wheelchair + "</br>Öffnungszeiten: "+ feature.properties.opening_hours +"<br />"+open.value+"</p>";
+			// var reftime = new Date();
+			// if(feature.properties.opening_hours != null)
+			// 	open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
+			var popupContent = "<b>Test</b>"
 
 
 			layer.bindPopup(popupContent);
@@ -85,24 +84,8 @@
 			onEachFeature: onEachFeature,
 
 			pointToLayer: function (feature, latlng) {
-				var open = "unbekannt";
-				var reftime = new Date();
-				if(feature.properties.opening_hours != null)
-					open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
-				if(feature.properties.wheelchair != "no" && feature.properties.wheelchair != null)
-					if( open.value )
-						return L.marker(latlng, {icon: wheelieIcon});
-					else  if (feature.properties.opening_hours != null)
-						return L.marker(latlng, {icon: wheelie_gr_Icon});
-					else
-						return L.marker(latlng, {icon: wheelie_un_Icon});
-				else
-					if( open.value )
-						return L.marker(latlng, {icon: toiletIcon});
-					else if (feature.properties.opening_hours != null)
-						return L.marker(latlng, {icon: toilet_gr_Icon});
-					else 
-						return L.marker(latlng, {icon: toilet_un_Icon});
+				return L.marker(latlng, {icon: stolpersteinIcon});
+				
 
 			}
 		}).addTo(map);
