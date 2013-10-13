@@ -9,6 +9,7 @@
 
 	<link rel="stylesheet" href="externs/css/leaflet.css" />
 	<!--[if lte IE 8]><link rel="stylesheet" href="externs/css/leaflet.ie.css" /><![endif]-->
+	<link href="css/main.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="map" ></div>
@@ -20,7 +21,7 @@
 	<script>
 		var map = L.map('map').setView([53.86, 8.65], 12);
 
-		L.tileLayer('http://{s}.tile.cloudmade.com/{key}/22677/256/{z}/{x}/{y}.png', {
+		L.tileLayer('http://tile.osm.org/{z}/{x}/{y}.png', {
 			attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2012 CloudMade',
 			key: 'BC9A493B41014CAABB98F0471D759707'
 		}).addTo(map);
@@ -29,9 +30,9 @@
 			options: {
 				iconUrl: 'img/stolperstein.jpg',
 				shadowUrl: 'img/schatten.png',
-				iconSize: [32, 37],
-				iconAnchor: [16, 37],
-				shadowAnchor: [9, 37],
+				iconSize: [32, 32],
+				iconAnchor: [16, 32],
+				shadowAnchor: [12, 48],
 				popupAnchor: [0, -28]
 			}
 		});
@@ -60,7 +61,7 @@
 		}
 
 		function onEachFeature(feature, layer) {
-			var open = "unbekannt";
+			//var open = "unbekannt";
 			// var reftime = new Date();
 			// if(feature.properties.opening_hours != null)
 			// 	open = TimeDomain.evaluateInTime(feature.properties.opening_hours, reftime, null)
@@ -84,7 +85,7 @@
 			onEachFeature: onEachFeature,
 
 			pointToLayer: function (feature, latlng) {
-				return L.marker(latlng, {icon: stolpersteinIcon});
+				return L.marker(latlng, {icon: ssteinIcon});
 				
 
 			}
