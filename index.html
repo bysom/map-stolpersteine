@@ -22,21 +22,21 @@
 		var map = L.map('map').setView([53.86, 8.65], 12);
 
 		L.tileLayer('http://tile.osm.org/{z}/{x}/{y}.png', {
-			attribution: 'Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2012 CloudMade',
+			attribution: 'Map data &copy; 2011 OpenStreetMap contributors', //Imagery &copy; 2012 CloudMade',
 			key: 'BC9A493B41014CAABB98F0471D759707'
 		}).addTo(map);
 
 		var stolpersteinIcon = L.Icon.extend({
 			options: {
-				iconUrl: 'img/stolperstein.jpg',
-				shadowUrl: 'img/schatten.png',
-				iconSize: [32, 32],
-				iconAnchor: [16, 32],
-				shadowAnchor: [12, 48],
-				popupAnchor: [0, -28]
+				iconUrl: 'img/stolpersteinv2.png',
+				shadowUrl: 'img/stolpersteinv2_shadow.png',
+				iconSize: [64, 70],
+				iconAnchor: [32, 70],
+				shadowAnchor: [14, 48],
+				popupAnchor: [0, -64]
 			}
 		});
-		var ssteinIcon = new stolpersteinIcon({iconUrl: 'img/stolperstein.jpg'});
+		var ssteinIcon = new stolpersteinIcon(); //{iconUrl: 'img/stolpersteinv2.png'}
 		// var toilet_gr_Icon = new toiletsIcon({iconUrl: 'pics/toilets_gr.png'});
 		// var wheelieIcon = new toiletsIcon({iconUrl: 'pics/toilets_disability.png'});
 		// var wheelie_gr_Icon = new toiletsIcon({iconUrl: 'pics/toilets_disability_gr.png'});
